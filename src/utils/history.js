@@ -40,6 +40,11 @@ export const history = (() => {
       write(next)
       return next
     },
+    remove(id) {
+      const next = read().filter((entry) => entry.id !== id)
+      write(next)
+      return next
+    },
     clear() {
       localStorage.removeItem(STORAGE_KEY)
     },

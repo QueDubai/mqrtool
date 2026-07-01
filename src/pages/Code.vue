@@ -10,15 +10,18 @@
 
         <ul v-if="list.length" class="history-list">
           <li v-for="item in list" :key="item.id" class="history-list_item">
-            <button class="history-list_btn" :class="{ 'is-active': isActive(item) }" type="button" @click="restore(item)">
-              <span v-if="item.env" class="history-list_env" :class="`history-list_env_${item.env}`">{{ item.env }}</span>
-              <div class="history-list_meta">
-                <span class="history-list_code">{{ item.restaurantCode }}</span>
-                <span class="history-list_dot">·</span>
-                <span class="history-list_code">{{ item.tableCode }}</span>
-              </div>
-              <span class="history-list_time">{{ formatDate(item.createdAt) }}</span>
-            </button>
+            <div class="history-list_row" :class="{ 'is-active': isActive(item) }">
+              <button class="history-list_btn" type="button" @click="restore(item)">
+                <span v-if="item.env" class="history-list_env" :class="`history-list_env_${item.env}`">{{ item.env }}</span>
+                <div class="history-list_meta">
+                  <span class="history-list_code">{{ item.restaurantCode }}</span>
+                  <span class="history-list_dot">·</span>
+                  <span class="history-list_code">{{ item.tableCode }}</span>
+                </div>
+                <span class="history-list_time">{{ formatDate(item.createdAt) }}</span>
+              </button>
+              <button class="history-list_remove" type="button" @click.stop="removeItem(item)">删除</button>
+            </div>
           </li>
         </ul>
         <p v-else class="panel_empty">暂无历史记录</p>
@@ -210,6 +213,10 @@ function clearList() {
   if (!window.confirm('确定清空全部历史记录？')) return
   history.clear()
   list.value = []
+}
+
+function removeItem(item) {
+  list.value = history.remove(item.id)
 }
 
 onMounted(() => {
@@ -429,15 +436,13 @@ onMounted(() => {
     margin: 0;
   }
 
-  .history-list_btn {
-    position: relative;
-    width: 100%;
-    text-align: left;
+  .history-list_row {
+    display: flex;
+    align-items: stretch;
     border: 1px solid #e5e7eb;
-    background: #fafafa;
     border-radius: 10px;
-    padding: 22px 14px 12px;
-    cursor: pointer;
+    background: #fafafa;
+    overflow: hidden;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 
     &:hover {
@@ -449,6 +454,34 @@ onMounted(() => {
       border-color: #22c55e;
       background: #f0fdf4;
       box-shadow: 0 0 0 1px #22c55e;
+    }
+  }
+
+  .history-list_btn {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    border: none;
+    background: transparent;
+    padding: 22px 10px 12px 14px;
+    cursor: pointer;
+  }
+
+  .history-list_remove {
+    flex-shrink: 0;
+    align-self: center;
+    margin-right: 10px;
+    padding: 4px 6px;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #dc2626;
     }
   }
 
