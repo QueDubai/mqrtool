@@ -1,10 +1,5 @@
 <template>
   <div class="code-page">
-    <header class="code-page_header">
-      <h1 class="code-page_title">STO 桌台二维码生成</h1>
-      <p class="code-page_desc">输入餐厅码与桌台码，生成微信小程序跳转二维码</p>
-    </header>
-
     <div class="code-page_workspace">
       <aside class="panel panel_history">
         <div class="panel_head">
@@ -99,7 +94,7 @@ const EN_BASE = {
   uat: 'https://m.scantoorder-uat.marriott.com.cn/scantoorder/en/homepage',
   prod: 'https://m.scantoorder.marriott.com.cn/scantoorder/en/homepage',
 }
-const envOptions = ['sit', 'uat', 'prod']
+const envOptions = ['sit', 'uat'] // prod 暂隐藏，需要时加回
 const QR_SIZE = 200
 
 const restaurantCode = ref('')
@@ -235,21 +230,6 @@ onMounted(() => {
   margin: 0 auto;
   padding: 32px 20px 48px;
   min-height: 100vh;
-
-  .code-page_header {
-    margin-bottom: 20px;
-
-    .code-page_title {
-      margin: 0 0 8px;
-      font-size: 28px;
-      color: #111827;
-    }
-
-    .code-page_desc {
-      margin: 0;
-      color: #6b7280;
-    }
-  }
 
   .code-page_workspace {
     display: grid;
@@ -409,9 +389,13 @@ onMounted(() => {
 
   &.btn_primary {
     margin-left: 24px;
-    background: @brand-color;
+    background: #16a34a;
     color: #fff;
     font-weight: 600;
+
+    &:hover {
+      background: #15803d;
+    }
   }
 
   &.btn_copy {
@@ -558,8 +542,8 @@ onMounted(() => {
   }
 
   .qr-col_url {
-    flex: 1;
-    max-width: 280px;
+    flex: 0 1 200px;
+    max-width: 200px;
     min-width: 0;
     margin: 0;
     font-size: 12px;
